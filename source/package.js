@@ -18,5 +18,8 @@ enyo.depends(
 	"$enyo/samples",
 	"$lib/g11n/samples",	
 	"App.css",
-	"App.js"
+	"GameObject.js",
+	"App.js",
+	"Timer.js",
+	"CollisionDetector.js"
 );
