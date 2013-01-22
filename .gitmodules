@@ -1,6 +1,6 @@
 [submodule "enyo"]
 	path = enyo
-	url = ../enyo.git
+	url = https://github.com/enyo.git
 [submodule "lib/onyx"]
 	path = lib/onyx
 	url = ../onyx.git
