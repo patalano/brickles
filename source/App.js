@@ -10,7 +10,8 @@ enyo.kind({
 		{name: "popup", kind: "onyx.Popup", centered: true, floating: true, showing: false, scrim: true, classes:"onyx-sample-popup", style: "padding: 20px;"}
 	],
 	handlers: {
-		onBrickDestroyed: "brickDestroyed"
+		onBrickDestroyed: "brickDestroyed",
+		onmousemove: "mousemove"
 	},
 	brickWidth: 100,
 	brickHeight: 20,
@@ -26,6 +27,9 @@ enyo.kind({
 		this.createBricks();
 		this.setCollisionObjects();
 		this.$.timer.start();
+	},
+	mousemove: function(inSender, inEvent) {
+		this.$.paddle.mousemove(inEvent);
 	},
 	setPaddleBounds: function() {
 		this.$.paddle.setMinLeft(0);
@@ -77,14 +81,14 @@ enyo.kind({
 	},
 	lose: function() {
 		this.$.timer.stop();
-		this.$.popup.setContent("You Lose!");
+		this.$.popup.setContent("Fail.");
 		this.$.popup.setShowing(true);
 	},
 	win: function() {
 		this.$.timer.stop();
 		this.$.popup.setContent("You Win!");
 		this.$.popup.setShowing(true);
-	},
+	}
 });
 
 enyo.kind({
@@ -116,6 +120,7 @@ enyo.kind({
 	},
 	leftIncrement: 30,
 	moving: 0,
+	mouseX: null,
 	components: [
 		{kind: "Signals", onkeydown: "keydown", onkeyup: "keyup", ontick: "tick"}
 	],
@@ -132,6 +137,15 @@ enyo.kind({
 		if(this.moving) {
 			this.stopMoving();
 		}
+	},
+	mousemove: function(inEvent) {
+		var newX = inEvent.clientX;
+		var diff = 0;
+		if(this.mouseX) {
+			diff = this.mouseX - newX;
+		}
+		this.setLeft(this.clamp(this.left - diff));
+		this.mouseX = newX;
 	},
 	tick: function(inSender, inEvent) {
 		if(this.moving === -1) {
